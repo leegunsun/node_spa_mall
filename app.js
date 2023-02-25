@@ -1,17 +1,23 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const path = require("path");
 
-const goodsRouter = require("./routes/goods.js");
-const cartsRouter = require("./routes/carts.js");
+const postRouter = require("./routes/posts");
+const indexRouter = require("./routes/index.js");
 const connect = require("./schemas");
+app.set("view engine", "ejs");
+app.set("views", "view");
+
+app.use(express.static(path.join(__dirname, "public")));
+
 connect();
 
 app.use(express.json());
-app.use("/api", [goodsRouter, cartsRouter]);
+app.use("/api", [postRouter, indexRouter]);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.render("admin/login");
 });
 
 app.listen(port, () => {

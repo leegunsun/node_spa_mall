@@ -1,8 +1,9 @@
-const person = { firstName: "John", lastName: "Doe", age: 30, gender: "male" };
+const myObj = {
+  name: "John",
+  age: 30,
+  city: "New York",
+};
 
-// Destructure the person object and collect the remaining properties into an object
-const { firstName, lastName, ...other } = person;
-
-console.log(firstName); // Output: 'John'
-console.log(lastName); // Output: 'Doe'
-console.log(other); // Output: { age: 30, gender: 'male' }
+for (const [key, value] of Object.entries(myObj)) {
+  console.log(`${key}: ${value}`);
+}
