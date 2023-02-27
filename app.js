@@ -17,7 +17,7 @@ app.use(express.json());
 app.use("/api", [postRouter, indexRouter]);
 
 app.get("/", (req, res) => {
-  res.render("admin/login");
+  res.send("main page");
 });
 
 app.listen(port, () => {
