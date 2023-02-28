@@ -5,7 +5,10 @@ const path = require("path");
 
 const postRouter = require("./routes/posts");
 const indexRouter = require("./routes/index.js");
+// const commentRouter = require("./routes/comments.js");
+
 const connect = require("./schemas");
+
 app.set("view engine", "ejs");
 app.set("views", "view");
 
@@ -15,6 +18,7 @@ connect();
 
 app.use(express.json());
 app.use("/api", [postRouter, indexRouter]);
+// app.use("/api/postComment", commentRouter);
 
 app.get("/", (req, res) => {
   res.send("main page");
