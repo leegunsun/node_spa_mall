@@ -18,6 +18,13 @@ router.get("/posts", async (req, res, next) => {
 });
 
 router.post("/posts", async (req, res, next) => {
+  // const {user,password,title,content} = req.body
+  // await Post.create({
+  //   user,
+  //   password,
+  //   title,
+  //   content,
+  // });
   await Post.create({
     user: "Developer",
     password: "1234",
