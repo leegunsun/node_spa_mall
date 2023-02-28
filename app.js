@@ -3,9 +3,9 @@ const app = express();
 const port = 3000;
 const path = require("path");
 
-const postRouter = require("./routes/posts");
+const postRouter = require("./routes/posts.js");
 const indexRouter = require("./routes/index.js");
-// const commentRouter = require("./routes/comments.js");
+const commentRouter = require("./routes/comments.js");
 
 const connect = require("./schemas");
 
@@ -18,7 +18,7 @@ connect();
 
 app.use(express.json());
 app.use("/api", [postRouter, indexRouter]);
-// app.use("/api/postComment", commentRouter);
+app.use("/api/postComment", commentRouter);
 
 app.get("/", (req, res) => {
   res.send("main page");

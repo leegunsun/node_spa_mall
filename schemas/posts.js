@@ -24,7 +24,7 @@ const postsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  comments: [commentsSchema],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comments" }],
 });
 
 postsSchema.virtual("postId").get(function () {
