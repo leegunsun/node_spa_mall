@@ -87,7 +87,7 @@ router.delete("/input/:postId/:commentId", async (req, res) => {
     if (!post) {
       return res.status(404).send("포스트가 존재하지 않습니다.");
     }
-    //toString()을 붙어야 하는지 확인해보자
+    //toString()을 붙어야 하는지 확인해보자 toString()을 붙여야 작동한다.
     const comment = post.comments.find(
       (ele) => ele.commentId.toString() === commentId
     );
