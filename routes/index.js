@@ -3,10 +3,11 @@ const router = express.Router();
 const Post = require("../schemas/posts.js");
 
 router.get("/", async (req, res, next) => {
-  const test = await Post.find();
+  const test = await Post.find({});
+
+  //   const test = await Post.find();
   try {
-    res.json({ allData: test });
-    console.error(error);
+    res.json({ test });
   } catch {
     console.error(error);
   }
