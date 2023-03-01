@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const commentsSchema = require("./comment.js");
 
-//postsSchema에 필요한것, 고유한 아이디, 제목, 시간
-//
 const postsSchema = new mongoose.Schema({
   user: {
     type: String,
