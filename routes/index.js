@@ -4,8 +4,12 @@ const Post = require("../schemas/posts.js");
 
 router.get("/", async (req, res, next) => {
   const test = await Post.find();
-
-  res.json({ allData: test });
+  try {
+    res.json({ allData: test });
+    console.error(error);
+  } catch {
+    console.error(error);
+  }
 });
 
 module.exports = router;
