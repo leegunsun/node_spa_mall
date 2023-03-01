@@ -96,7 +96,7 @@ router.delete("/input/:postId/:commentId", async (req, res) => {
       console.log(typeof comment);
       return res.status(404).json({ message: "댓글이 존재하지 않습니다." });
     }
-    //아래 코드 알아보기
+
     post.comments.pull(comment);
     await post.save();
     return res.json({ message: "댓글이 삭제 되었습니다." });

@@ -17,7 +17,8 @@ app.use(express.static(path.join(__dirname, "public")));
 connect();
 
 app.use(express.json());
-app.use("/api", [postRouter, indexRouter]);
+app.use("/", indexRouter);
+app.use("/api", postRouter);
 app.use("/api/postComment", commentRouter);
 
 app.get("/", (req, res) => {
