@@ -4,10 +4,13 @@ const Post = require("../schemas/posts.js");
 
 router.get("/", async (req, res, next) => {
   const test = await Post.find({});
+  const { user, password, title } = test;
 
-  //   const test = await Post.find();
   try {
-    res.json({ test });
+    const renamedResult = test.map(({ user, password, title }) => {
+      return { user1: user, password1: password, title1: title };
+    });
+    res.json({ RESULT: renamedResult });
   } catch {
     console.error(error);
   }
