@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 router.post("/auth", async (req, res) => {
   const { email, password } = req.body;
 
-  //이메일이 일치하는 유저를 찾는다.
+  //이메일이 일치하는 유저를 찾는.
   const user = await User.findOne({ email });
 
   //1. 이메일에 일치하는 유저가 존재하지 않거나
