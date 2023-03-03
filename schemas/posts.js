@@ -23,10 +23,6 @@ const postsSchema = new mongoose.Schema({
     default: Date.now,
   },
   comments: [commentsSchema],
-  // testid: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   default: mongoose.Types.ObjectId,
-  // },
 });
 
 postsSchema.virtual("postId").get(function () {
@@ -40,4 +36,4 @@ postsSchema.set("toJSON", {
     delete ret.id;
   },
 });
-module.exports = mongoose.model("Posts", postsSchema);
+module.exports = mongoose.moadel("Posts", postsSchema);

@@ -106,35 +106,4 @@ router.delete("/input/:postId/:commentId", async (req, res) => {
   }
 });
 
-// router.get("/user", (req,res)=> {
-// const users = User.find({})
-
-//   if(!users) {
-//     return res.status(400).json({ message : "회원 목록 조회 실패"})
-//   }
-
-// const rename = users.map(({_id,name,ID,pw}) => {
-//   return {userId:_id, name:name,ID:ID,pw:pw}
-// })
-
-// res.json({ "result" : rename})
-
-// })
-
-// router.get("/user/:userid", (req,res)=> {
-//   const userId = req.params.userid
-//   const users = User.findById(userId)
-
-//   if(!users) {
-//     return res.status(400).json({ message : "회원 상세 조회 실패"})
-//   }
-
-//   const rename = users.map(({_id,name,ID,pw}) => {
-//     return {userId:_id, name:name,ID:ID,pw:pw}
-//   })
-
-//   res.json({ "result" : rename})
-
-// })
-
 module.exports = router;
