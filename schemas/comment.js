@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const commentsSchema = new mongoose.Schema({
-  commentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: mongoose.Types.ObjectId,
-  },
   content: {
     type: String,
     required: true,
@@ -19,7 +15,12 @@ const commentsSchema = new mongoose.Schema({
   },
 });
 
+commentsSchema.virtual("commentId").get(function () {
+  return this._id.toHexString();
+});
+
 commentsSchema.set("toJSON", {
+  virtual: true,
   transform: function (doc, ret) {
     delete ret._id;
   },

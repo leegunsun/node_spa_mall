@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const commentsSchema = require("./comment.js");
 
 const postsSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: String,
     required: true,
   },
-  password: {
+  nickname: {
     type: String,
     required: true,
   },
@@ -19,6 +19,10 @@ const postsSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
     type: Date,
     default: Date.now,
   },
@@ -36,4 +40,4 @@ postsSchema.set("toJSON", {
     delete ret.id;
   },
 });
-module.exports = mongoose.moadel("Posts", postsSchema);
+module.exports = mongoose.model("Posts", postsSchema);

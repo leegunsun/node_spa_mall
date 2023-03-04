@@ -2,24 +2,23 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
-const postRouter = require("./routes/posts.js");
 const indexRouter = require("./routes/index.js");
+const postRouter = require("./routes/posts.js");
 const commentRouter = require("./routes/comments.js");
+const signupRouter = require("./routes/signup.js");
+const authRouter = require("./routes/auth.js");
 
 const connect = require("./schemas");
 
-app.set("view engine", "ejs");
-app.set("views", "view");
-
+app.use(cookieParser());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-
 connect();
 
-app.use(express.json());
 app.use("/", indexRouter);
-app.use("/api", postRouter);
-app.use("/api/postComment", commentRouter);
+app.use("/api", [postRouter, commentRouter, signupRouter, authRouter]);
 
 app.get("/", (req, res) => {
   res.send("main page");
