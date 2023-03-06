@@ -3,20 +3,35 @@ const router = express.Router();
 const Post = require("../schemas/posts.js");
 const authMiddleware = require("../middlewares/auth-middleware.js");
 const User = require("../schemas/user.js");
+const Comment = require("../schemas/comment.js");
 
 router.get("/posts", async (req, res, next) => {
-  const posts = await Post.find(
-    {},
-    { postId: 1, userId: 1, nickname: 1, title: 1, createdAt: 1 }
-  ).sort({
-    postId: -1,
+  // const posts = await Post.find(
+  //   {},
+  //   { postId: 1, userId: 1, nickname: 1, title: 1, createdAt: 1 }
+  // ).sort({
+  //   postId: -1,
+  // });
+
+  const posts = await Post.find();
+  const rename = posts.map((ele) => {
+    return {
+      postId: ele.postId,
+      userId: ele.userId,
+      nickname: ele.nickname,
+      title: ele.title,
+      createdAt: ele.createdAt,
+      comment: Comment.find({ postId: ele.postId })
+        ? []
+        : Comment.find({ postId: ele.postId }),
+    };
   });
 
   try {
     if (posts.length) {
-      res.json({ posts: posts });
+      res.status(200).json({ posts: rename });
     } else {
-      return res.send("데이터가 없습니다.");
+      return res.status(412).json({ errorMessage: "데이터가 없습니다." });
     }
   } catch (error) {
     return res
@@ -178,22 +193,26 @@ router.delete("/posts/:postId", authMiddleware, async (req, res) => {
     }
 
     if (post.userId == userId) {
-      await post.deleteOne();
-      res.status(200).json({ message: "게시글을 삭제하였습니다." });
+      try {
+        await post.deleteOne();
+        res.status(200).json({ message: "게시글을 삭제하였습니다." });
+      } catch (errer) {
+        return res
+          .status(200)
+          .json({ errorMessage: "게시글이 정상적으로 삭제되지 않았습니다." });
+      }
     } else {
       res
         .status(403)
         .json({ errorMessage: "게시글의 삭제 권한이 존재하지 않습니다." });
     }
-  } catch {
+  } catch (error) {
+    console.error(error);
     return res
       .status(400)
       .json({ errorMessage: "게시글 삭제에 실패하였습니다." });
   }
 });
-
-// # 401 게시글 삭제에 실패한 경우
-// {"errorMessage": "게시글이 정상적으로 삭제되지 않았습니다.”}
 
 // # 400 예외 케이스에서 처리하지 못한 에러
 // {"errorMessage": "게시글 작성에 실패하였습니다."}
@@ -205,4 +224,6 @@ router.delete("/posts/:postId", authMiddleware, async (req, res) => {
 // {"errorMessage": "게시글이 존재하지 않습니다."}
 // # 403 게시글을 삭제할 권한이 존재하지 않는 경우
 // {"errorMessage": "게시글의 삭제 권한이 존재하지 않습니다."}
+// # 401 게시글 삭제에 실패한 경우
+// {"errorMessage": "게시글이 정상적으로 삭제되지 않았습니다.”}
 module.exports = router;

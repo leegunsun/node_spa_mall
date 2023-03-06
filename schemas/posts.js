@@ -30,7 +30,9 @@ const postsSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  comments: [commentsSchema],
+  comments: {
+    typy: String,
+  },
 });
 
 postsSchema.set("toJSON", {

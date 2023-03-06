@@ -5,25 +5,35 @@ const commentsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  user: {
+  nickname: {
     type: String,
     required: true,
   },
-  createAt: {
+  commentId: {
+    type: String,
+    required: true,
+  },
+  userId: {
+    type: String,
+    required: true,
+  },
+  postId: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-commentsSchema.virtual("commentId").get(function () {
-  return this._id.toHexString();
-});
-
 commentsSchema.set("toJSON", {
-  virtual: true,
   transform: function (doc, ret) {
     delete ret._id;
   },
 });
 
-module.exports = commentsSchema;
+module.exports = mongoose.model("Comments", commentsSchema);
