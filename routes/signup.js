@@ -33,12 +33,13 @@ router.post("/signup", async (req, res) => {
       // 닉네임 실패
 
       if (passwordLengthRegex.test(password)) {
-        if (passwordRegex.test(password)) {
+        if (!passwordRegex.test(password)) {
           return res
             .status(412)
             .json({ errorMessage: "패스워드에 닉네임이 포함되어 있습니다." });
         }
-        //패스워드에 닉네임 포함되어있는지 감지 못함
+        //패스워드에 닉네임 포함되어있는지 감지 못함 해야함
+        //!넣어봄
 
         if (password !== confirm) {
           return res
