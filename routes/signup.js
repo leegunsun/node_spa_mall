@@ -7,8 +7,9 @@ router.post("/signup", async (req, res) => {
   const maxUserId = await User.findOne().sort("-userId").exec();
   const nicknameRegex = /^[A-Za-z0-9]{3,}$/;
   const passwordLengthRegex = /^[A-Za-z0-9]{4,}$/;
-  // const passwordRegex = new RegExp(`^(?!.*${nickname})`);
   const passwordRegex = new RegExp(`^(?!.*${nickname}).+$`);
+  // const passwordRegex = new RegExp(`^(?!.*${nickname})`);
+
   const userId = maxUserId ? maxUserId.userId + 1 : 1;
 
   console.log(passwordLengthRegex.test(password));
