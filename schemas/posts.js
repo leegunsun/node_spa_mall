@@ -6,6 +6,10 @@ const postsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  postId: {
+    type: Number,
+    required: true,
+  },
   nickname: {
     type: String,
     required: true,
@@ -29,12 +33,7 @@ const postsSchema = new mongoose.Schema({
   comments: [commentsSchema],
 });
 
-postsSchema.virtual("postId").get(function () {
-  return this._id.toHexString();
-});
-
 postsSchema.set("toJSON", {
-  virtuals: true,
   transform: function (doc, ret) {
     delete ret._id;
     delete ret.id;

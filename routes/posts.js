@@ -27,20 +27,26 @@ router.get("/posts", async (req, res, next) => {
 
 router.get("/posts/:postId", async (req, res) => {
   const { postId } = req.params;
-  const post = await Post.findOne({ postId });
+  const post = await Post.findOne({ postId: postId });
 
   try {
-    const result = {
-      postId: post.postId,
-      userId: post.userId,
-      nickname: post.nickname,
-      title: post.title,
-      content: post.content,
-      createdAt: post.createdAt,
-      updatedAt: post.updatedAt,
-    };
+    if (post) {
+      const result = {
+        postId: post.postId,
+        userId: post.userId,
+        nickname: post.nickname,
+        title: post.title,
+        content: post.content,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+      };
 
-    res.status(200).json({ post: result });
+      res.status(200).json({ post: result });
+    } else {
+      return res
+        .status(400)
+        .json({ errorMessage: "게시글 조회에 실패하였습니다." });
+    }
   } catch (error) {
     return res
       .status(400)
@@ -53,6 +59,8 @@ router.post("/posts", authMiddleware, async (req, res, next) => {
   const { title, content } = req.body;
   const { userId } = res.locals.user;
   const user = await User.findOne({ userId });
+  const maxPostId = await Post.findOne().sort("-postId").exec();
+  const postId = maxPostId ? maxPostId.postId + 1 : 1;
 
   // const user = await User.findOne({ userId });
 
@@ -75,6 +83,7 @@ router.post("/posts", authMiddleware, async (req, res, next) => {
 
     const post = new Post({
       userId: userId,
+      postId: postId,
       nickname: user.nickname,
       title,
       content,
