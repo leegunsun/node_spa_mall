@@ -14,18 +14,24 @@ router.get("/posts", async (req, res, next) => {
   // });
 
   const posts = await Post.find();
-  const rename = posts.map((ele) => {
-    return {
-      postId: ele.postId,
-      userId: ele.userId,
-      nickname: ele.nickname,
-      title: ele.title,
-      createdAt: ele.createdAt,
-      comment: Comment.find({ postId: ele.postId })
-        ? []
-        : Comment.find({ postId: ele.postId }),
-    };
-  });
+  const rename = await Promise.all(
+    posts.map(async (ele) => {
+      const comments = await Comment.find({ postId: ele.postId });
+      return {
+        postId: ele.postId,
+        userId: ele.userId,
+        nickname: ele.nickname,
+        title: ele.title,
+        createdAt: ele.createdAt,
+        comment: comments.length ? comments : [],
+      };
+    })
+  );
+
+  // const cc = await Comment.find({ postId: { postId: 1 } });
+  // const test2 = cc.content;
+
+  // console.log(test2);
 
   try {
     if (posts.length) {

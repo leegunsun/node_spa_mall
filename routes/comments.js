@@ -24,7 +24,7 @@ router.get("/posts/:postId", async (req, res) => {
   }
 });
 
-router.post("/comment_input/:postId", authMiddleware, async (req, res) => {
+router.post("/posts/:postId/comments", authMiddleware, async (req, res) => {
   const { userId } = res.locals.user;
   const { content } = req.body;
   const { postId } = req.params;
